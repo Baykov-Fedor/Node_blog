@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+require("dotenv").config();
 const postRoutes = require("./routes/post-routes");
 const contactRoutes = require("./routes/contact-routes");
 const postApiRoutes = require("./routes/api-post-routes");
@@ -10,17 +11,16 @@ const app = express();
 app.set("view engine", "ejs");
 
 const hostname = "127.0.0.1";
-const PORT = 3000;
-const db =
-  "mongodb+srv://baykovF:Pass321@cluster0.2oo46.mongodb.net/node-blog?retryWrites=true&w=majority";
 
 mongoose
-  .connect(db)
+  .connect(process.env.MONGO_URL)
   .then((res) => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
-app.listen(PORT, (error) => {
-  error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT, (error) => {
+  error
+    ? console.log(error)
+    : console.log(`listening port ${process.env.PORT}`);
 });
 
 app.use(express.urlencoded({ extended: false }));
